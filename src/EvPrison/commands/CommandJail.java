@@ -45,7 +45,7 @@ public class CommandJail extends BasePrisonCommand{
 			target.getPlayer().sendMessage("§4You have been jailed"+/* for [time]*/"!");
 			//More complete version: "You have been jailed for 2h 15m by PerikiyoXD for hacking."
 		}
-		
+		//TODO: teleport player to jail
 		return true;
 	}
 }
