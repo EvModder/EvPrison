@@ -1,0 +1,74 @@
+name: EvPrison
+main: Evil_Code_EvPrison.Prison
+Author: EvModder/EvDoc/Evil_Witchdoctor
+version: 1.0.0
+
+commands:
+   prison:
+      description: Main command for Prison plugin
+      usage: /prison ?
+      aliases: [incarceron]
+      permission: evp.prison.command
+      permission-message: You do not have permission to do this.
+   
+   jail:
+      description: Send a player to prison
+      usage: /prison jail [player] [-jail]
+      aliases: [incarcerate,imprison,prisonlockup,prisonjail]
+      permission: evp.prison.command.jail
+      permission-message: You do not have permission to do this.
+   
+   unjail:
+      description: Unjail a player
+      usage: /prison unjail
+      aliases: [prisonfree,prisonreleash,prisonunjail]
+      permission: evp.prison.command.jail
+      permission-message: You do not have permission to do this.
+   
+   bail:
+      description: Pay the bail to get out of jail!
+      usage: /prison bail [-player]
+      aliases: [prisonpayout,prisonpay,prisonbail]
+      permission: evp.prison.command.bail
+      permission-message: You do not have permission to do this.
+   
+   prisoners:
+      description: View a list of current prisoners
+      usage: /prison list [-prison]
+      aliases: [inmates,prisonlist]
+      permission: evp.prison.command.list
+      permission-message: You do not have permission to do this.
+   
+   
+permissions:
+   evp.prison.command:
+      description: Permission to use /prison
+      default op
+      
+   evp.prison.command.jail:
+      description: Permission to jail/unjail players
+      default: op
+   
+   evp.prison.command.bail:
+      description: Permission to pay bail
+      default: true
+   
+   evp.prison.command.list:
+      description: Permission to view prisoner list for a prison
+      default: op
+   
+   evp.prison.command.list.all:
+      description: Permission to view a comprehensive prisoner list
+      default: true
+   
+   evp.prison.exempt:
+      description: Players with this permission cannot be jailed
+      default: op
+   
+   evp.prison.admin:
+      description: Full access to plugin commands
+      children:
+         evp.prison.jail: true
+         evp.prison.bail: true
+         evp.prison.exempt: true
+      default: op

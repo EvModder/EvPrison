@@ -1,0 +1,30 @@
+#------------------------------------------------------------#
+#                       EvPrison config                      #
+#------------------------------------------------------------#
+
+respawn-in-jail: true
+prevent-teleport-out: true
+prevent-move-out: false
+prevent-commands: false
+can-take-damage-in-jail: true
+can-deal-damage-in-jail: false
+
+jailkeeper-respawn-in-jail: true
+jailkeeper-prevent-teleport-out: true
+jailkeeper-prevent-move-out: false
+default-jailkeeper-wage: 0
+
+default-sentance-length: 1h
+only-count-sentance-time-while-online: true
+perm-group-while-incarcerated: ''
+
+enable-bails: true
+can-paid-own-bail: true
+default-bail: 500
+bail-determined-by-sentance-length: true
+bail-cost-per-hour: 80
+
+# In a RxR square around prisoner. 0 to disable
+chat-visible-radius: 100
+
+default-jail: 'Prison'
