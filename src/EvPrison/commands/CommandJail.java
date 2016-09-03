@@ -24,6 +24,7 @@ public class CommandJail extends BasePrisonCommand{
 //		long time;
 		if(args.length > 1){
 			//TODO: calculate time to jail
+			//time = Utils.getTimeInSeconds(arg[1]);
 		}
 		
 		if(args.length > 2){
