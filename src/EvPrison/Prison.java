@@ -9,31 +9,33 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import evmodder.EvLib.EvPlugin;
+import evmodder.EvLib.Section;
+import evmodder.EvLib.VaultHook;
 import EvPrison.commands.*;
 import EvPrison.listeners.*;
 
-public final class Prison extends JavaPlugin{
-	private static Prison plugin; public static Prison getPlugin(){return plugin;}
-	private FileConfiguration config; @Override public FileConfiguration getConfig(){return config;}
-	
+public final class Prison extends EvPlugin{
 	private YamlConfiguration jails;
-	private Map<String, Set<UUID>> prisonerMap;
-	private String defaultJail = "Prison";
+	private Map<String, Jail> jailMap;
+	private static Prison plugin; public static Prison getPlugin(){return plugin;}
+	private String defaultJail; public String getDefaultJail(){return defaultJail;}
 	
-	@Override public void onEnable(){
-//		getLogger().info("Loading " + getDescription().getFullName());
+	@Override public void onEvEnable(){
 		plugin = this;
-		config = FileIO.loadConfig(this, "config-prison.yml", getClass().getResourceAsStream("/config.yml"));
-		prisonerMap = new HashMap<String, Set<UUID>>();
-		
+		jailMap = new HashMap<String, Jail>();
 		loadJails();
 		new VaultHook(this);
 		registerListeners();
 		registerCommands();
+		new BukkitRunnable(){
+			@Override public void run(){
+				
+			}
+		}.runTaskTimer(this, 20, 20);//wait 1 second, than run every second.
 	}
 	
 	public void loadJails(){
@@ -50,11 +52,30 @@ public final class Prison extends JavaPlugin{
 		else for(String jailName : jails.getKeys(false)){
 			ConfigurationSection data = jails.getConfigurationSection(jailName);
 			
-			if(data.getBoolean("default")) defaultJail = jailName;
+			if(defaultJail == null || data.getBoolean("default")) defaultJail = jailName;
+			
+			String[] min = data.getString("min").split(","), max = data.getString("max").split(",");
+//			String[] warp = data.getString("warp").split(",");
+
+			String worldName = data.getString("world");
+//			World world;
+			if(worldName.isEmpty()) worldName = (/*world=*/getServer().getWorlds().get(0)).getName();
+//			else world = getServer().getWorld(worldName);
+
+			Section bounds;
+//			Location teleport;
+			try{ bounds = new Section(worldName,
+					Integer.parseInt(max[0]), Integer.parseInt(min[0]),
+					Integer.parseInt(max[1]), Integer.parseInt(min[1]),
+					Integer.parseInt(max[2]), Integer.parseInt(min[2]));
+
+//				teleport = new Location(world, Integer.parseInt(warp[0]), Integer.parseInt(warp[1]), Integer.parseInt(warp[2]));
+			}
+			catch(NumberFormatException ex){getLogger().severe("Error loading coordinates: " + jailName); continue;}
 			
 			Set<UUID> inmates = new HashSet<UUID>();
 			for(String prisoner : data.getStringList("inmates")) inmates.add(UUID.fromString(prisoner));
-			prisonerMap.put(jailName, inmates);
+			jailMap.put(jailName.toLowerCase(), new Jail(jailName, inmates, bounds));
 		}
 	}
 	public void saveJails(){
@@ -69,77 +90,72 @@ public final class Prison extends JavaPlugin{
 		if(config.getBoolean("respawn-in-jail")){
 			getServer().getPluginManager().registerEvents(new RespawnListener(), this);
 		}
-		if(config.getBoolean("can-receive-damage-in-jail") || config.getBoolean("can-deal-damage-in-jail")){
+		if(config.getBoolean("can-take-damage-in-jail")){
 			getServer().getPluginManager().registerEvents(new DamageListener(), this);
 		}
+		if(config.getBoolean("can-deal-damage-in-jail")){
+			getServer().getPluginManager().registerEvents(new DamageByEntityListener(), this);
+		}
 	}
-	
 	private void registerCommands(){
-		new CommandJail();
-		new CommandUnjail();
-		new CommandPrisoners();
-		if(plugin.getConfig().getBoolean("enable-bails")) new CommandBail();
+		new CommandJail(this);
+		new CommandUnjail(this);
+		new CommandPrisoners(this);
+		if(plugin.getConfig().getBoolean("enable-bails")) new CommandBail(this);
 	}
 	
 	//--------------- Member functions ------------------------------------------------------
-	//TODO: Move this into a native library
+	//TODO: Move this into a library interface
 	public Set<UUID> getAllPrisoners(){
 		Set<UUID> prisonerNames = new HashSet<UUID>();
-		for(Set<UUID> inmates : prisonerMap.values()) prisonerNames.addAll(inmates);
+		for(Jail jail : jailMap.values()) prisonerNames.addAll(jail.inmates);
 		return prisonerNames;
 	}
 	
 	public boolean isPrisoner(UUID playerUUID){
-		for(String jail : prisonerMap.keySet()){
-			if(prisonerMap.get(jail).contains(playerUUID)) return true;
+		for(String jail : jailMap.keySet()){
+			if(jailMap.get(jail).inmates.contains(playerUUID)) return true;
 		}
 		return false;
 	}
 	
-	public boolean isValidJail(String jailName){
-		return prisonerMap.keySet().contains(jailName);
+	public boolean isJail(String jailName){
+		return jailMap.keySet().contains(jailName.toLowerCase());
 	}
 	
-	public boolean isInJail(String jailName, UUID playerUUID){
-		return prisonerMap.get(jailName).contains(playerUUID);
+	public boolean isInJail(UUID playerUUID, String jailName){
+		return jailMap.get(jailName).inmates.contains(playerUUID);
 	}
 	
 	public Set<UUID> getPrisoners(String jailName){
-		return prisonerMap.get(jailName);
+		return jailMap.get(jailName).inmates;
 	}
 	
-	public boolean addPrisoner(String jailName, UUID playerUUID){
+	public boolean jail(UUID playerUUID, String jailName, long time){
 		// Commented out because it might be okay to be jailed in multiple jails
 //		if(isPrisoner(playerUUID) || !prisonerMap.containsKey(jailName)) return false;
 		
-		prisonerMap.get(jailName).add(playerUUID);
-		jails.getStringList(jailName+".inmates").add(playerUUID.toString());
+		Jail jail = jailMap.get(jailName.toLowerCase());
+		if(jail == null) return false;
+		jail.inmates.add(playerUUID);
+		jails.getStringList(jail.fullName+".inmates").add(playerUUID.toString());
 		saveJails();
 		return true;
 	}
-	
-	public boolean addPrisoner(UUID playerUUID){
-		// Commented out because it might be okay to be jailed in multiple jails
-//		if(isPrisoner(playerUUID)) return false;
 		
-		prisonerMap.get(defaultJail).add(playerUUID);
-		jails.getStringList(defaultJail+".inmates").add(playerUUID.toString());
-		saveJails();
-		return true;
-	}
-	
-	public boolean removePrisoner(String jailName, UUID playerUUID){
-		if(!prisonerMap.containsKey(jailName) || !prisonerMap.get(jailName).remove(playerUUID)) return false;
+	public boolean unjail(UUID playerUUID, String jailName){
+		jailName = jailName.toLowerCase();
+		if(!jailMap.containsKey(jailName) || !jailMap.get(jailName).inmates.remove(playerUUID)) return false;
 		
-		jails.getStringList(jailName+".inmates").remove(playerUUID.toString());
+		jails.getStringList(jailMap.get(jailName).fullName+".inmates").remove(playerUUID.toString());
 		saveJails();
 		return true;
 	}
 	
-	public boolean removePrisoner(UUID playerUUID){
+	public boolean unjail(UUID playerUUID){
 		boolean contained = false;
-		for(String jailName : prisonerMap.keySet()){
-			if(prisonerMap.get(jailName).remove(playerUUID)){
+		for(String jailName : jails.getKeys(false)){
+			if(jailMap.get(jailName.toLowerCase()).inmates.remove(playerUUID)){
 				jails.getStringList(jailName+".inmates").remove(playerUUID.toString());
 				contained = true;
 			}
@@ -148,8 +164,7 @@ public final class Prison extends JavaPlugin{
 		return contained;
 	}
 	
-	@Override public void saveConfig(){
-		try{config.save(new File("./plugins/EvFolder/config-prison.yml"));}
-		catch(IOException ex){ex.printStackTrace();}
+	public long getJailTimeLeft(UUID playerUUID){
+		return 10;//TODO: fill in stub
 	}
 }

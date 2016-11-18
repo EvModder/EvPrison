@@ -20,14 +20,14 @@ commands:
    
    unjail:
       description: Unjail a player
-      usage: /prison unjail
+      usage: /prison unjail [player] [-jail]
       aliases: [prisonfree,prisonreleash,prisonunjail]
       permission: evp.prison.command.jail
       permission-message: You do not have permission to do this.
    
    bail:
       description: Pay the bail to get out of jail!
-      usage: /prison bail [-player]
+      usage: /prison bail [-player] [-jail]
       aliases: [prisonpayout,prisonpay,prisonbail]
       permission: evp.prison.command.bail
       permission-message: You do not have permission to do this.

@@ -3,12 +3,21 @@ package EvPrison.commands;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import EvPrison.Prison;
+import EvPrison.Utils;
+import evmodder.EvLib.CommandBase;
 
-public class CommandJail extends BasePrisonCommand{
+public class CommandJail extends CommandBase{
+	private long DEFAULT_SENTANCE;
 	
+	public CommandJail(Prison p){
+		super(p);
+		DEFAULT_SENTANCE = Utils.getTimeInSeconds(p.getConfig().getString("default-sentance-length"));
+	}
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String args[]){
-		//cmd:	/prison jail [player] [-time] [-jail]
+		//cmd:	/prison jail [player] [-jail] [-time]
 		
 		if(args.length == 0){
 			sender.sendMessage("§cPlease specify a player to jail");
@@ -17,32 +26,55 @@ public class CommandJail extends BasePrisonCommand{
 		
 		@SuppressWarnings("deprecation")
 		OfflinePlayer target = plugin.getServer().getOfflinePlayer(args[0]);
-		if(target == null){
+		if(target == null || !target.hasPlayedBefore()){
 			sender.sendMessage("§cUnable to find player '§e"+args[0]+"§c'");
 			return true;
 		}
-//		long time;
-		if(args.length > 1){
-			//TODO: calculate time to jail
-			//time = Utils.getTimeInSeconds(arg[1]);
+		
+		long time = DEFAULT_SENTANCE;
+		Prison pl = (Prison) plugin;
+		String jailName = pl.getDefaultJail();
+		
+		if(args.length == 1){
+			//nothin
+		}
+		else if(args.length == 2){
+			if(Utils.isTimeString(args[1])) time = Utils.getTimeInSeconds(args[1]);
+			else jailName = args[1];
+		}
+		else if(args.length == 3){
+			if(Utils.isTimeString(args[1])){
+				time = Utils.getTimeInSeconds(args[1]);
+				jailName = args[2];
+			}
+			else{
+				jailName = args[1];
+				if(Utils.isTimeString(args[2])) time = Utils.getTimeInSeconds(args[2]);
+				else{
+					sender.sendMessage("§cInvalid jail sentance, must be a time value");
+					return false;
+				}
+			}
+		}
+		else{
+			sender.sendMessage("§cInvalid number of arguments");
+			return false;
 		}
 		
-		if(args.length > 2){
-			String jailName = args[1];
-			if(!plugin.isValidJail(jailName)){
-				sender.sendMessage("§cInvalid jail '§e"+jailName+"§c'");
-				return true;
-			}
-//			if(plugin.isInJail(jailName, target.getUniqueId())){
-//				sender.sendMessage("§cSelected player is already in that jail");
-//				return true;
-//			}
-			else plugin.addPrisoner(jailName, target.getUniqueId()/*, time */);
+		if(!pl.isJail(jailName)){
+			sender.sendMessage("§cInvalid jail '§e"+jailName+"§c'");
+			return true;
 		}
-		else plugin.addPrisoner(target.getUniqueId()/*, time */);
+		if(pl.isInJail(target.getUniqueId(), jailName)){
+			sender.sendMessage("§c'§7"+target.getName()+"§c' is already in that jail");
+			if(time != 0) sender.sendMessage("§cChanging sentance to: §6"+args[2]);
+			else return true;
+		}
+		
+		pl.jail(target.getUniqueId(), jailName, time);
 		
 		if(target.isOnline()){
-			target.getPlayer().sendMessage("§4You have been jailed"+/* for [time]*/"!");
+			target.getPlayer().sendMessage("§4You have been jailed for "+time+'!');
 			//More complete version: "You have been jailed for 2h 15m by PerikiyoXD for hacking."
 		}
 		//TODO: teleport player to jail

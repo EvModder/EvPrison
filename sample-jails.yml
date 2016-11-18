@@ -1,0 +1,27 @@
+Prison:
+  default: true
+  min: 10,10,10
+  max: 20,20,20
+  world: VictoryHills
+  inmates:
+    - EvDoc
+    - Foofy
+    - Crah
+    - Setteal
+
+HackerPrison:
+  min: -20,50,-20
+  max: 20,100,20
+  bail-cost-per-hour: 200
+  world: VictoryHills
+  inmates:
+    - PerikiyoXD
+    - UrQuan_Slayer
+
+HateBox:
+  min: 100,50,100
+  max: 200,100,200
+  world: Creative
+  inmates:
+    - Genaro12345
+    - Galadriel699

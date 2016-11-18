@@ -3,7 +3,11 @@ package EvPrison.commands;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-public class CommandPrisoners extends BasePrisonCommand{
+import evmodder.EvLib.CommandBase;
+import EvPrison.Prison;
+
+public class CommandPrisoners extends CommandBase{
+	public CommandPrisoners(Prison p){super(p);}
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String args[]){
