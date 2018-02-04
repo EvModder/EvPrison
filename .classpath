@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="lib" path="C:/Users/Nate/Dropbox/Minecraft/Plugins/Libraries/EvLib.jar"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="/Users/Nate/Dropbox/Minecraft/Plugins/Libraries/bukkit.jar">
+	<classpathentry kind="lib" path="/Users/Nate/Dropbox/Minecraft/Development/Libraries/EvLib.jar"/>
+	<classpathentry kind="lib" path="/Users/Nate/Dropbox/Minecraft/Development/Libraries/bukkit.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="https://hub.spigotmc.org/javadocs/bukkit/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/Users/Nate/Dropbox/Minecraft/Development/Libraries/Essentials.jar"/>
+	<classpathentry kind="lib" path="/Users/Nate/Dropbox/Minecraft/Development/Libraries/Vault.jar"/>
+	<classpathentry kind="lib" path="/Users/Nate/Dropbox/Minecraft/Development/Libraries/spigot_server.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Nate/Dropbox/Minecraft/Plugins/Libraries/Essentials.jar"/>
-	<classpathentry kind="lib" path="/Users/Nate/Dropbox/Minecraft/Plugins/Libraries/Vault.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Nate/Dropbox/Minecraft/Plugins/Libraries/spigot_server.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
