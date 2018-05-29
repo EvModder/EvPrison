@@ -25,14 +25,14 @@ public class CommandBail extends CommandBase{
 		String jailName = null;
 		
 		if(args.length == 0 && target == null){
-			sender.sendMessage("§cPlease specify the player for whom you wish to pay bail");
+			sender.sendMessage("ï¿½cPlease specify the player for whom you wish to pay bail");
 			return true;
 		}
 		else{
 			OfflinePlayer target2 = plugin.getServer().getOfflinePlayer(args[0]);
 			if(target2 == null || !target2.hasPlayedBefore()){
 				if(target == null){
-					sender.sendMessage("§cUnable to find player '§e"+args[0]+"§c'");
+					sender.sendMessage("ï¿½cUnable to find player 'ï¿½e"+args[0]+"ï¿½c'");
 					return false;
 				}
 				else jailName = args[0];
@@ -42,30 +42,30 @@ public class CommandBail extends CommandBase{
 		boolean self = target.getName().equals(sender.getName());
 		
 		if(!((Prison)plugin).isPrisoner(target.getUniqueId())){
-			if(self) sender.sendMessage("§7You are not currently in jail");
-			else sender.sendMessage("§7That player is not currently in jail");
+			if(self) sender.sendMessage("ï¿½7You are not currently in jail");
+			else sender.sendMessage("ï¿½7That player is not currently in jail");
 			return true;
 		}
 		long jailTime = ((Prison)plugin).getJailTimeLeft(target.getUniqueId());
 		if(jailTime == 0){
-			if(self) sender.sendMessage("§7You cannot bail out of your sentance");
-			else sender.sendMessage("§7That player cannot be bailed");
+			if(self) sender.sendMessage("ï¿½7You cannot bail out of your sentance");
+			else sender.sendMessage("ï¿½7That player cannot be bailed");
 			return true;
 		}
 		if(sender instanceof Player){
 			double bailAmount = jailTime * HOURLY_BAIL;//TODO: lod custom hourly_bail per prison
 			
 			if(VaultHook.hasAtLeast((Player)sender, bailAmount) == false){
-				sender.sendMessage("§4You do not have sufficient funds (§c$"+bailAmount+"§4)");
+				sender.sendMessage("ï¿½4You do not have sufficient funds (ï¿½c$"+bailAmount+"ï¿½4)");
 				return true;
 			}
 			else if(args[args.length-1].equals("confirm")){
 				VaultHook.chargeFee((Player)sender, bailAmount);
-				sender.sendMessage("§7You have paid a bail of §c$"+bailAmount+"§7 to release §6"+target.getName());
+				sender.sendMessage("ï¿½7You have paid a bail of ï¿½c$"+bailAmount+"ï¿½7 to release ï¿½6"+target.getName());
 			}
 			else{
-				Utils.sendHyperTextCommand("§7Click to pay the §c"+bailAmount+"§7 bail §f[", "§eClick here",
-						"/"+label+' '+target.getName()+(jailName == null ? "" : " "+jailName)+" confirm", "§f]", (Player)sender);
+				Utils.sendHyperTextCommand("ï¿½7Click to pay the ï¿½c"+bailAmount+"ï¿½7 bail ï¿½f[", "ï¿½eClick here",
+						"/"+label+' '+target.getName()+(jailName == null ? "" : " "+jailName)+" confirm", "ï¿½f]", (Player)sender);
 				return true;
 			}
 		}

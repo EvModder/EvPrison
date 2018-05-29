@@ -15,19 +15,19 @@ public class CommandUnjail extends CommandBase{
 		//cmd:	/prison unjail [player] [-jail]
 		
 		if(args.length == 0){
-			sender.sendMessage("§cPlease specify a player to unjail");
+			sender.sendMessage("ï¿½cPlease specify a player to unjail");
 			return true;
 		}
 		
 		@SuppressWarnings("deprecation")
 		OfflinePlayer target = plugin.getServer().getOfflinePlayer(args[0]);
 		if(target == null || !target.hasPlayedBefore()){
-			sender.sendMessage("§cUnable to find player '§e"+args[0]+"§c'");
+			sender.sendMessage("ï¿½cUnable to find player 'ï¿½e"+args[0]+"ï¿½c'");
 			return true;
 		}
 		if(args.length > 1){
 			if(!((Prison)plugin).isJail(args[1])){
-				sender.sendMessage("§cInvalid jail '§e"+args[1]+"§c'");
+				sender.sendMessage("ï¿½cInvalid jail 'ï¿½e"+args[1]+"ï¿½c'");
 				return true;
 			}
 			else ((Prison)plugin).unjail(target.getUniqueId(), args[1]);
@@ -36,7 +36,7 @@ public class CommandUnjail extends CommandBase{
 		else ((Prison)plugin).unjail(target.getUniqueId());
 		
 		if(target.isOnline()){
-			target.getPlayer().sendMessage("§aYou have been unjailed!");
+			target.getPlayer().sendMessage("ï¿½aYou have been unjailed!");
 			//Alternate version: "You have been released by PerikiyoXD"
 			//Alternate version: "Your jail time has ended!"
 		}

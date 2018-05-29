@@ -20,14 +20,14 @@ public class CommandJail extends CommandBase{
 		//cmd:	/prison jail [player] [-jail] [-time]
 		
 		if(args.length == 0){
-			sender.sendMessage("§cPlease specify a player to jail");
+			sender.sendMessage("ï¿½cPlease specify a player to jail");
 			return true;
 		}
 		
 		@SuppressWarnings("deprecation")
 		OfflinePlayer target = plugin.getServer().getOfflinePlayer(args[0]);
 		if(target == null || !target.hasPlayedBefore()){
-			sender.sendMessage("§cUnable to find player '§e"+args[0]+"§c'");
+			sender.sendMessage("ï¿½cUnable to find player 'ï¿½e"+args[0]+"ï¿½c'");
 			return true;
 		}
 		
@@ -51,30 +51,30 @@ public class CommandJail extends CommandBase{
 				jailName = args[1];
 				if(Utils.isTimeString(args[2])) time = Utils.getTimeInSeconds(args[2]);
 				else{
-					sender.sendMessage("§cInvalid jail sentance, must be a time value");
+					sender.sendMessage("ï¿½cInvalid jail sentance, must be a time value");
 					return false;
 				}
 			}
 		}
 		else{
-			sender.sendMessage("§cInvalid number of arguments");
+			sender.sendMessage("ï¿½cInvalid number of arguments");
 			return false;
 		}
 		
 		if(!pl.isJail(jailName)){
-			sender.sendMessage("§cInvalid jail '§e"+jailName+"§c'");
+			sender.sendMessage("ï¿½cInvalid jail 'ï¿½e"+jailName+"ï¿½c'");
 			return true;
 		}
 		if(pl.isInJail(target.getUniqueId(), jailName)){
-			sender.sendMessage("§c'§7"+target.getName()+"§c' is already in that jail");
-			if(time != 0) sender.sendMessage("§cChanging sentance to: §6"+args[2]);
+			sender.sendMessage("ï¿½c'ï¿½7"+target.getName()+"ï¿½c' is already in that jail");
+			if(time != 0) sender.sendMessage("ï¿½cChanging sentance to: ï¿½6"+args[2]);
 			else return true;
 		}
 		
 		pl.jail(target.getUniqueId(), jailName, time);
 		
 		if(target.isOnline()){
-			target.getPlayer().sendMessage("§4You have been jailed for "+time+'!');
+			target.getPlayer().sendMessage("ï¿½4You have been jailed for "+time+'!');
 			//More complete version: "You have been jailed for 2h 15m by PerikiyoXD for hacking."
 		}
 		//TODO: teleport player to jail

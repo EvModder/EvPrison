@@ -65,7 +65,7 @@ public class Utils {
 		}
 		else{
 			comp = ChatSerializer.a(
-					"{\"extra\":[{\"text\":\"§2" + hyperMsg +
+					"{\"extra\":[{\"text\":\"ï¿½2" + hyperMsg +
 					"\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" +
 					command + "\"}}]}");
 		}
