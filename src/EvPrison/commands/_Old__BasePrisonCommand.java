@@ -1,7 +1,6 @@
 package EvPrison.commands;
 
 import org.bukkit.command.CommandExecutor;
-
 import EvPrison.Prison;
 
 abstract class _Old__BasePrisonCommand implements CommandExecutor{

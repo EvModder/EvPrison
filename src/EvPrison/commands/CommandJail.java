@@ -1,13 +1,14 @@
 package EvPrison.commands;
 
+import java.util.List;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import EvPrison.Prison;
 import EvPrison.Utils;
-import evmodder.EvLib.CommandBase;
+import net.evmodder.EvLib.EvCommand;
 
-public class CommandJail extends CommandBase{
+public class CommandJail extends EvCommand{
 	private long DEFAULT_SENTANCE;
 	
 	public CommandJail(Prison p){
@@ -25,14 +26,14 @@ public class CommandJail extends CommandBase{
 		}
 		
 		@SuppressWarnings("deprecation")
-		OfflinePlayer target = plugin.getServer().getOfflinePlayer(args[0]);
+		OfflinePlayer target = Prison.getPlugin().getServer().getOfflinePlayer(args[0]);
 		if(target == null || !target.hasPlayedBefore()){
 			sender.sendMessage("�cUnable to find player '�e"+args[0]+"�c'");
 			return true;
 		}
 		
 		long time = DEFAULT_SENTANCE;
-		Prison pl = (Prison) plugin;
+		Prison pl = Prison.getPlugin();
 		String jailName = pl.getDefaultJail();
 		
 		if(args.length == 1){
@@ -79,5 +80,10 @@ public class CommandJail extends CommandBase{
 		}
 		//TODO: teleport player to jail
 		return true;
+	}
+
+	@Override public List<String> onTabComplete(CommandSender arg0, Command arg1, String arg2, String[] arg3){
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

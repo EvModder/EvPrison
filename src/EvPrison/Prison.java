@@ -2,21 +2,25 @@ package EvPrison;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
-
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import evmodder.EvLib.EvPlugin;
-import evmodder.EvLib.Section;
-import evmodder.EvLib.VaultHook;
-import EvPrison.commands.*;
-import EvPrison.listeners.*;
+import EvPrison.commands.CommandBail;
+import EvPrison.commands.CommandJail;
+import EvPrison.commands.CommandPrisoners;
+import EvPrison.commands.CommandUnjail;
+import EvPrison.listeners.DamageByEntityListener;
+import EvPrison.listeners.DamageListener;
+import EvPrison.listeners.RespawnListener;
+import EvPrison.listeners.TeleportListener;
+import net.evmodder.EvLib.EvPlugin;
+import net.evmodder.EvLib.hooks.VaultHook;
+import net.evmodder.EvLib.util.Section;
 
 public final class Prison extends EvPlugin{
 	private YamlConfiguration jails;

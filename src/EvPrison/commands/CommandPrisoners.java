@@ -1,12 +1,12 @@
 package EvPrison.commands;
 
+import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-
-import evmodder.EvLib.CommandBase;
 import EvPrison.Prison;
+import net.evmodder.EvLib.EvCommand;
 
-public class CommandPrisoners extends CommandBase{
+public class CommandPrisoners extends EvCommand{
 	public CommandPrisoners(Prison p){super(p);}
 	
 	@Override
@@ -25,5 +25,10 @@ public class CommandPrisoners extends CommandBase{
 			//TODO: find prison based on args[] and show prisoners for that prison
 		}
 		return true;
+	}
+
+	@Override public List<String> onTabComplete(CommandSender arg0, Command arg1, String arg2, String[] arg3){
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
