@@ -2,12 +2,14 @@ package EvPrison;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.UUID;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
-import net.minecraft.server.v1_15_R1.IChatBaseComponent;
-import net.minecraft.server.v1_15_R1.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_15_R1.PacketPlayOutChat;
+import org.bukkit.craftbukkit.v1_16_R1.entity.CraftPlayer;
+import net.minecraft.server.v1_16_R1.ChatMessageType;
+import net.minecraft.server.v1_16_R1.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_16_R1.IChatMutableComponent;
+import net.minecraft.server.v1_16_R1.PacketPlayOutChat;
 
 public class Utils{
 	public static long getTimeInSeconds(String time){
@@ -55,7 +57,7 @@ public class Utils{
 
 	public static void sendHyperTextCommand(String preMsg, String hyperMsg, String command, String postMsg,
 			Player... recipients){
-		IChatBaseComponent comp;
+		IChatMutableComponent comp;
 		if(preMsg != null && !preMsg.isEmpty()) {
 			comp = ChatSerializer.a("{\"text\":\"" + preMsg + "\",\"extra\":[{\"text\":\"" + hyperMsg
 					+ "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + command + "\"}}]}");
@@ -67,7 +69,7 @@ public class Utils{
 		if(postMsg != null && !postMsg.isEmpty()) {
 			comp.addSibling(ChatSerializer.a("{\"text\":\"" + postMsg + "\"}"));
 		}
-		PacketPlayOutChat packet = new PacketPlayOutChat(comp);
+		PacketPlayOutChat packet = new PacketPlayOutChat(comp, ChatMessageType.GAME_INFO, UUID.randomUUID());
 		for(Player p : recipients)
 			((CraftPlayer)p).getHandle().playerConnection.sendPacket(packet);
 	}
