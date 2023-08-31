@@ -18,7 +18,7 @@
 		<link>
 			<name>EvLib</name>
 			<type>2</type>
-			<location>/Users/Nate/Dropbox/Minecraft/Development/Plugins/EvLib/src</location>
+			<locationURI>WORKSPACE_LOC/EvLib/src</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
