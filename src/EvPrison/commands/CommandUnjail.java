@@ -5,7 +5,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import EvPrison.Prison;
-import net.evmodder.EvLib.EvCommand;
+import net.evmodder.EvLib.bukkit.EvCommand;
 
 public class CommandUnjail extends EvCommand{
 	public CommandUnjail(Prison p){super(p);}

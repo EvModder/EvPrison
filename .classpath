@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry excluding="net/evmodder/EvLib/extras/|net/evmodder/EvLib/hooks/MultiverseHook.java|net/evmodder/EvLib/hooks/WorldEditHook.java|net/evmodder/EvLib/noteblockapi/|net/evmodder/EvLib/particles/|net/evmodder/EvLib/util/Fraction.java|net/evmodder/EvLib/util/IndexMultiMapDriver.java|net/evmodder/EvLib/util/IndexTreeMap.java|net/evmodder/EvLib/util/IndexTreeMultiMap.java|net/evmodder/EvLib/util/IndexTreeMultiMap2.java|net/evmodder/EvLib/util/Pair.java|net/evmodder/EvLib/util/UnionFind.java|net/evmodder/EvLib/Updater.java" kind="src" path="EvLib"/>
+	<classpathentry excluding="net/evmodder/EvLib/extras/|net/evmodder/EvLib/hooks/MultiverseHook.java|net/evmodder/EvLib/hooks/WorldEditHook.java|net/evmodder/EvLib/noteblockapi/|net/evmodder/EvLib/particles/|net/evmodder/EvLib/util/Fraction.java|net/evmodder/EvLib/util/IndexMultiMapDriver.java|net/evmodder/EvLib/util/IndexTreeMap.java|net/evmodder/EvLib/util/IndexTreeMultiMap.java|net/evmodder/EvLib/util/IndexTreeMultiMap2.java|net/evmodder/EvLib/util/Pair.java|net/evmodder/EvLib/util/UnionFind.java|net/evmodder/EvLib/Updater.java|net/evmodder/EvLib/bukkit/HeadUtils.java|net/evmodder/EvLib/bukkit/PacketUtils.java|net/evmodder/EvLib/bukkit/Updater.java|net/evmodder/EvLib/bukkit/WebUtils.java" kind="src" path="EvLib"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="module" value="true"/>

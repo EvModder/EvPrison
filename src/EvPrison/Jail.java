@@ -2,7 +2,7 @@ package EvPrison;
 
 import java.util.Set;
 import java.util.UUID;
-import net.evmodder.EvLib.util.Section;
+import net.evmodder.EvLib.bukkit.Section;
 
 public class Jail {
 	public Set<UUID> inmates;

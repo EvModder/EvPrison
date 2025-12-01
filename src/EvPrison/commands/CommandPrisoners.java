@@ -4,7 +4,7 @@ import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import EvPrison.Prison;
-import net.evmodder.EvLib.EvCommand;
+import net.evmodder.EvLib.bukkit.EvCommand;
 
 public class CommandPrisoners extends EvCommand{
 	public CommandPrisoners(Prison p){super(p);}

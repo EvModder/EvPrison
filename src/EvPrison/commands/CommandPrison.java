@@ -59,10 +59,11 @@ public class CommandPrison implements TabExecutor{
 			{
 				PluginCommand cmd = plugin.getCommand(cmdName);
 				
-				if(!sender.hasPermission(cmd.getPermission())){
-					sender.sendMessage(cmd.getPermissionMessage());
-					return true;
-				}
+				if(!sender.hasPermission(cmd.getPermission())) return false;
+//				{
+//					sender.sendMessage("§cNo permission");
+//					return true;
+//				}
 				cmd.getExecutor().onCommand(sender, cmd, thisCmd, args);
 				return true;
 			}

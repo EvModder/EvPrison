@@ -6,7 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import EvPrison.Prison;
 import EvPrison.Utils;
-import net.evmodder.EvLib.EvCommand;
+import net.evmodder.EvLib.bukkit.EvCommand;
 
 public class CommandJail extends EvCommand{
 	private long DEFAULT_SENTANCE;

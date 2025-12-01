@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import EvPrison.Prison;
 import EvPrison.Utils;
-import net.evmodder.EvLib.EvCommand;
+import net.evmodder.EvLib.bukkit.EvCommand;
 import net.evmodder.EvLib.hooks.VaultHook;
 
 public class CommandBail extends EvCommand{

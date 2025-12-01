@@ -18,9 +18,9 @@ import EvPrison.listeners.DamageByEntityListener;
 import EvPrison.listeners.DamageListener;
 import EvPrison.listeners.RespawnListener;
 import EvPrison.listeners.TeleportListener;
-import net.evmodder.EvLib.EvPlugin;
+import net.evmodder.EvLib.bukkit.EvPlugin;
 import net.evmodder.EvLib.hooks.VaultHook;
-import net.evmodder.EvLib.util.Section;
+import net.evmodder.EvLib.bukkit.Section;
 
 public final class Prison extends EvPlugin{
 	private YamlConfiguration jails;
