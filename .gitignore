@@ -1,6 +1,8 @@
 # Java stuff
 bin/
 *.class
+.project
+.classpath
 
 # Windows image file caches
 Thumbs.db
