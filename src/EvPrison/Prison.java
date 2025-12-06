@@ -20,7 +20,7 @@ import EvPrison.listeners.RespawnListener;
 import EvPrison.listeners.TeleportListener;
 import net.evmodder.EvLib.bukkit.EvPlugin;
 import net.evmodder.EvLib.hooks.VaultHook;
-import net.evmodder.EvLib.bukkit.Section;
+import net.evmodder.EvLib.util.Section;
 
 public final class Prison extends EvPlugin{
 	private YamlConfiguration jails;
